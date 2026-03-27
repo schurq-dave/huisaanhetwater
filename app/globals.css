@@ -161,6 +161,7 @@
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
+    text-decoration: none;
     color: var(--color-camel-400);
     margin-bottom: 1rem;
   }

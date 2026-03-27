@@ -70,6 +70,7 @@ export interface GastReview {
 }
 
 export interface HomeReviews {
+  label?: string
   heading: string
   subtext?: string
   items: GastReview[]
@@ -113,11 +114,28 @@ export interface HomeFaq {
   items: FaqItem[]
 }
 
+/** Sectie — Ons Aanbod */
+export interface HomeAanbodItem {
+  slug: string
+  title: string
+  summary: string
+  image?: ImageData
+}
+
+export interface HomeAanbod {
+  label: string
+  heading: string
+  subtext?: string
+  items: HomeAanbodItem[]
+  cta: CtaButton
+}
+
 /** Volledige homepage data */
 export interface HomePageData {
   seo: SeoData
   hero: HomeHero
   overOns: HomeOverOns
+  aanbod: HomeAanbod
   locaties: HomeLocaties
   helpOns: HomeHelpOns
   reviews: HomeReviews

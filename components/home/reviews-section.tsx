@@ -11,7 +11,7 @@ interface ReviewsSectionProps {
 
 const CARD_LARGE = 560;
 const CARD_SMALL = 280;
-const GAP = 16;
+const GAP = 24;
 const DURATION = 500;
 
 function ReviewCard({
@@ -38,8 +38,8 @@ function ReviewCard({
         cursor: onClick ? 'pointer' : 'default',
         transition: `width ${DURATION}ms cubic-bezier(0.4,0,0.2,1), min-width ${DURATION}ms cubic-bezier(0.4,0,0.2,1), box-shadow ${DURATION}ms ease`,
         boxShadow: isLarge
-          ? '0 20px 48px rgba(0,0,0,0.22)'
-          : '0 4px 16px rgba(0,0,0,0.10)',
+          ? '4px 4px 12px 0px rgba(0, 0, 0, 0.15)'
+          : '4px 4px 12px 0px rgba(0, 0, 0, 0.15)',
       }}
     >
       <Image
@@ -193,6 +193,7 @@ export default function ReviewsSection({ data }: ReviewsSectionProps) {
           }}
         >
           <div>
+            {data.label && <span className="overline">{data.label}</span>}
             <h2 id="reviews-heading" style={{ marginBottom: 0 }}>{data.heading}</h2>
             {data.subtext && (
               <p style={{ maxWidth: '48ch', fontSize: '1.05rem', margin: '0.75rem 0 0' }}>
@@ -234,7 +235,7 @@ export default function ReviewsSection({ data }: ReviewsSectionProps) {
         </div>
 
         {/* Viewport */}
-        <div style={{ overflow: 'hidden', background: 'transparent' }}>
+        <div style={{ overflow: 'hidden', background: 'transparent', paddingBlock: '16px', marginBlock: '-16px' }}>
           <div
             style={{
               display: 'flex',

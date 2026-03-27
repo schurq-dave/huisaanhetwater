@@ -45,7 +45,7 @@ export default function LocatiesSection({ data }: LocatiesSectionProps) {
       <div className="container-default" style={{ position: 'relative', zIndex: 1 }}>
         {/* Section header */}
         <div style={{ marginBottom: 'clamp(2rem, 4vw, 3.5rem)', textAlign: 'center' }}>
-          <span className="overline" style={{ color: 'rgba(255,255,255,0.75)' }}>Onze locaties</span>
+          <span className="overline">Onze locaties</span>
           <h2 id="locaties-heading" style={{ maxWidth: '20ch', margin: '0 auto', color: '#ffffff' }}>
             {data.heading}
           </h2>
@@ -61,14 +61,14 @@ export default function LocatiesSection({ data }: LocatiesSectionProps) {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 480px), 1fr))',
-            gap: '2rem',
+            gap: '1.5rem',
           }}
         >
           {data.items.map((locatie) => (
             <div
               key={locatie.slug}
               className="card card-lift"
-              style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
+              style={{ display: 'block', textDecoration: 'none', color: 'inherit', border: 'none' }}
             >
               {/* Location image */}
               <div

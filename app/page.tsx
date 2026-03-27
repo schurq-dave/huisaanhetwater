@@ -3,6 +3,7 @@ import { homePageData } from '@/lib/data/pages/home'
 import { buildMetadata } from '@/lib/seo/metadata'
 import HeroSection from '@/components/home/hero-section'
 import OverOnsSection from '@/components/home/over-ons-section'
+import AanbodSection from '@/components/home/aanbod-section'
 import LocatiesSection from '@/components/home/locaties-section'
 import HelpOnsSection from '@/components/home/help-ons-section'
 import ReviewsSection from '@/components/home/reviews-section'
@@ -19,6 +20,7 @@ export default function HomePage() {
     <>
       <HeroSection data={homePageData.hero} />
       <OverOnsSection data={homePageData.overOns} />
+      <AanbodSection data={homePageData.aanbod} />
       <LocatiesSection data={homePageData.locaties} />
       <HelpOnsSection data={homePageData.helpOns} />
       <ReviewsSection data={homePageData.reviews} />

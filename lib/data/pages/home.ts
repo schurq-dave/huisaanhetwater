@@ -59,6 +59,49 @@ export const homePageData: HomePageData = {
     },
   },
 
+  // ── Sectie 2b: Ons Aanbod ────────────────────────────────────────────────
+  aanbod: {
+    label: 'Ons aanbod',
+    heading: 'Wat we te bieden hebben',
+    subtext: 'Van bewegen op het water tot begeleide wandelingen — ons aanbod is er voor iedereen die even wil opladen.',
+    items: [
+      {
+        slug: 'bewegen-op-het-water',
+        title: 'Bewegen op het water',
+        summary: 'Kanoën, roeien en varen in een rustgevende omgeving. Geschikt voor alle niveaus.',
+        image: { src: '/images/aanbod-water.jpg', alt: 'Persoon zit op een steiger aan het water', width: 828, height: 1035 },
+      },
+      {
+        slug: 'natuur-en-wandelen',
+        title: 'Natuur & wandelen',
+        summary: 'Begeleide wandelingen langs het water en door de polder, gericht op herstel en rust.',
+        image: { src: '/images/aanbod-wandelen.jpg', alt: 'Vrouw zit op een boomstam in het bos', width: 780, height: 1040 },
+      },
+      {
+        slug: 'creatief-en-expressie',
+        title: 'Creatief & expressie',
+        summary: 'Schilderen, tekenen en schrijven in de natuur als manier om tot jezelf te komen.',
+        image: { src: '/images/aanbod-creatief.jpg', alt: 'Vrouwen schilderen in een atelier', width: 480, height: 360 },
+      },
+      {
+        slug: 'groepsactiviteiten',
+        title: 'Groepsactiviteiten',
+        summary: 'Samen bewegen, verbinden en ontspannen. Speciaal voor zorggroepen en teams.',
+        image: { src: '/images/aanbod-groep.jpg', alt: 'Vrouwen mediteren buiten onder een boom', width: 683, height: 1024 },
+      },
+      {
+        slug: 'bezinning-en-stilte',
+        title: 'Bezinning & stilte',
+        summary: 'Momenten van rust, meditatie en reflectie aan het water, voor wie even wil vertragen.',
+        image: { src: '/images/aanbod-stilte.jpg', alt: 'Hand raakt het wateroppervlak aan', width: 683, height: 1024 },
+      },
+    ],
+    cta: {
+      label: 'Bekijk ons volledige aanbod',
+      href: '/aanbod',
+    },
+  },
+
   // ── Sectie 3: Locaties ────────────────────────────────────────────────────
   locaties: {
     heading: 'Twee locaties aan het water',
@@ -144,6 +187,7 @@ export const homePageData: HomePageData = {
 
   // ── Sectie 5: Gastreviews ─────────────────────────────────────────────────
   reviews: {
+    label: 'Gastreviews',
     heading: 'Wat onze gasten zeggen',
     subtext: 'Echte verhalen van mensen die iets bijzonders beleefden aan het water.',
     items: [
