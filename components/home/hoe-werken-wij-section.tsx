@@ -93,11 +93,9 @@ export default function HoeWerkenWijSection({ data }: HoeWerkenWijSectionProps) 
 
           {/* Right — atmospheric photo block */}
           <div
+            className="relative mt-0 mb-0 lg:-mt-12 lg:-mb-12"
             style={{
-              position: 'relative',
-              marginTop: '-3rem',
-              marginBottom: '-3rem',
-              height: 'clamp(480px, 60vw, 680px)',
+              height: 'clamp(400px, 60vw, 680px)',
             }}
           >
             {/* Main photo */}
@@ -121,10 +119,8 @@ export default function HoeWerkenWijSection({ data }: HoeWerkenWijSectionProps) 
 
             {/* Floating smaller photo — bottom-left overlap */}
             <div
+              className="absolute bottom-4 left-[-1rem] lg:bottom-10 lg:left-[-2.5rem]"
               style={{
-                position: 'absolute',
-                bottom: '2.5rem',
-                left: '-2.5rem',
                 width: '52%',
                 aspectRatio: '4 / 3',
                 borderRadius: '16px',

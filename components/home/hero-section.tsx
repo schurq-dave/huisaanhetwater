@@ -128,6 +128,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
           justifyContent: 'flex-end',
           paddingTop: '8rem',
           paddingBottom: '10rem',
+          boxSizing: 'border-box',
         }}
       >
         <div>
@@ -139,7 +140,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
                 marginBottom: '1.5rem',
                 textShadow: '0 2px 20px rgba(0,0,0,0.3)',
                 fontWeight: 600,
-                fontSize: '65px',
+                fontSize: 'clamp(2.5rem, 8vw, 65px)',
               }}
             >
               {data.heading}
@@ -183,12 +184,12 @@ export default function HeroSection({ data }: HeroSectionProps) {
       {/* Donate card — absolute bottom-right of hero, sits on the white fade */}
       <Link
         href="/help-ons#particulier"
+        className="hidden md:flex"
         style={{
           position: 'absolute',
           bottom: '19rem',
           right: 0,
           zIndex: 10,
-          display: 'flex',
           flexDirection: 'column',
           gap: '0.5rem',
           background: '#ffffff',

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { HomeReviews, GastReview } from '@/lib/types';
 
 interface ReviewsSectionProps {
@@ -18,12 +18,13 @@ function ReviewCard({
   review,
   width,
   onClick,
+  isLarge,
 }: {
   review: GastReview;
   width: number;
   onClick?: () => void;
+  isLarge: boolean;
 }) {
-  const isLarge = width === CARD_LARGE;
 
   return (
     <div
@@ -133,13 +134,35 @@ export default function ReviewsSection({ data }: ReviewsSectionProps) {
   const items = data.items;
   const total = items.length;
 
+  const [cardLarge, setCardLarge] = useState(CARD_LARGE);
+
+  useEffect(() => {
+    const handleResize = () => {
+      // Op kleine schermen (bijv < 600px) beperken we de breedte tot schermbreedte - padding
+      if (window.innerWidth < 600) {
+        setCardLarge(window.innerWidth - 32); // 16px padding aan beide kanten
+      } else {
+        setCardLarge(CARD_LARGE);
+      }
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // offset = index of first visible card
   const [offset, setOffset] = useState(0);
   const [slideX, setSlideX] = useState(0);
   const [isSliding, setIsSliding] = useState(false);
   // widths[i] = current animated width for position i
-  const [widths, setWidths] = useState([CARD_LARGE, CARD_SMALL, CARD_SMALL, CARD_SMALL]);
+  const [widths, setWidths] = useState([cardLarge, CARD_SMALL, CARD_SMALL, CARD_SMALL]);
   const busy = useRef(false);
+
+  // Update widths array when cardLarge changes
+  useEffect(() => {
+    setWidths([cardLarge, CARD_SMALL, CARD_SMALL, CARD_SMALL]);
+  }, [cardLarge]);
 
   // 4 indices rendered (3 visible + 1 for seamless slide)
   const indices = Array.from({ length: 4 }, (_, i) => (offset + i) % total);
@@ -150,13 +173,13 @@ export default function ReviewsSection({ data }: ReviewsSectionProps) {
 
     if (dir === 'next') {
       // Animate: pos 0 shrinks to small, pos 1 grows to large, slide left
-      setWidths([CARD_SMALL, CARD_LARGE, CARD_SMALL, CARD_SMALL]);
+      setWidths([CARD_SMALL, cardLarge, CARD_SMALL, CARD_SMALL]);
       setIsSliding(true);
       setSlideX(-(CARD_SMALL + GAP));
     } else {
       // Animate: pos 0 stays large but we bring in new card from left
       // Simulate: pos 3 grows to large, pos 0 shrinks, slide right
-      setWidths([CARD_SMALL, CARD_SMALL, CARD_SMALL, CARD_LARGE]);
+      setWidths([CARD_SMALL, CARD_SMALL, CARD_SMALL, cardLarge]);
       setIsSliding(true);
       setSlideX(CARD_SMALL + GAP);
     }
@@ -169,7 +192,7 @@ export default function ReviewsSection({ data }: ReviewsSectionProps) {
       setOffset(newOffset);
       setSlideX(0);
       setIsSliding(false);
-      setWidths([CARD_LARGE, CARD_SMALL, CARD_SMALL, CARD_SMALL]);
+      setWidths([cardLarge, CARD_SMALL, CARD_SMALL, CARD_SMALL]);
       busy.current = false;
     }, DURATION);
   };
@@ -245,6 +268,7 @@ export default function ReviewsSection({ data }: ReviewsSectionProps) {
                 ? `transform ${DURATION}ms cubic-bezier(0.4,0,0.2,1)`
                 : 'none',
               willChange: 'transform',
+              width: 'max-content', // Zorgt ervoor dat de flex container niet wordt samengedrukt
             }}
           >
             {indices.map((itemIdx, pos) => (
@@ -252,6 +276,7 @@ export default function ReviewsSection({ data }: ReviewsSectionProps) {
                 key={`${offset}-${pos}`}
                 review={items[itemIdx]}
                 width={widths[pos]}
+                isLarge={widths[pos] === cardLarge}
                 onClick={pos === 0 ? undefined : () => navigate('next')}
               />
             ))}

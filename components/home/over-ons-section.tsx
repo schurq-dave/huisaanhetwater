@@ -15,9 +15,8 @@ export default function OverOnsSection({ data }: OverOnsSectionProps) {
     >
       <div className="container-default">
         <div
+          className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr]"
           style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1.2fr',
             gap: 'clamp(3rem, 6vw, 5rem)',
             alignItems: 'center',
           }}
@@ -93,11 +92,9 @@ export default function OverOnsSection({ data }: OverOnsSectionProps) {
 
           {/* Right — photo stack */}
           <div
+            className="relative mt-0 mb-0 lg:-mt-24 lg:-mb-24"
             style={{
-              position: 'relative',
-              marginTop: '-6rem',
-              marginBottom: '-6rem',
-              height: 'clamp(480px, 60vw, 680px)',
+              height: 'clamp(400px, 60vw, 680px)',
             }}
           >
             {/* Main photo */}
@@ -121,10 +118,8 @@ export default function OverOnsSection({ data }: OverOnsSectionProps) {
 
             {/* Floating smaller photo — bottom-left overlap */}
             <div
+              className="absolute bottom-4 right-[-1rem] lg:bottom-10 lg:right-[-2.5rem]"
               style={{
-                position: 'absolute',
-                bottom: '2.5rem',
-                right: '-2.5rem',
                 width: '52%',
                 aspectRatio: '4 / 3',
                 borderRadius: '16px',

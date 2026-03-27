@@ -212,14 +212,16 @@ export default function Navbar({ data, siteName }: NavbarProps) {
                 alignItems: 'center',
               }}
             >
-              <Image
-                src="/images/logo.png"
-                alt="Huis aan het Water"
-                width={90}
-                height={72}
-                style={{ height: '52px', width: 'auto' }}
-                priority
-              />
+              <div className="h-[40px] md:h-[52px] w-auto relative flex items-center justify-center">
+                <Image
+                  src="/images/logo.png"
+                  alt="Huis aan het Water"
+                  width={90}
+                  height={72}
+                  style={{ height: '100%', width: 'auto' }}
+                  priority
+                />
+              </div>
             </Link>
 
             {/* Right nav + Search + Mobile */}

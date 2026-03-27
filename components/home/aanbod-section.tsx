@@ -40,14 +40,15 @@ export default function AanbodSection({ data }: AanbodSectionProps) {
     >
       {/* 3/5 + 2/5 grid — left text, right cards */}
       <div
+        className="grid grid-cols-1 lg:grid-cols-[3fr_2fr]"
         style={{
           maxWidth: '1200px',
           marginInline: 'auto',
-          display: 'grid',
-          gridTemplateColumns: '3fr 2fr',
           gap: 'clamp(2.5rem, 5vw, 4rem)',
           alignItems: 'center',
           overflow: 'visible',
+          paddingInline: 'clamp(1.25rem, 5vw, 2rem)',
+          boxSizing: 'border-box',
         }}
       >
         {/* ── Left 3/5 — text + CTA ── */}
@@ -78,7 +79,7 @@ export default function AanbodSection({ data }: AanbodSectionProps) {
         </div>
 
         {/* ── Right 2/5 — scrollable cards ── */}
-        <div style={{ overflow: 'visible' }}>
+        <div style={{ overflow: 'visible', marginInline: 'calc(-1 * clamp(1.25rem, 5vw, 2rem))', paddingInline: 'clamp(1.25rem, 5vw, 2rem)' }} className="lg:m-0 lg:p-0">
           <div
             ref={scrollRef}
             onScroll={handleScroll}
@@ -90,8 +91,7 @@ export default function AanbodSection({ data }: AanbodSectionProps) {
               WebkitOverflowScrolling: 'touch',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
-              padding: '12px',
-              margin: '-12px',
+              padding: '12px 0', // Padding top/bottom voor box-shadow
             }}
           >
             {data.items.map((item, i) => (

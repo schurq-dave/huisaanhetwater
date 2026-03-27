@@ -26,9 +26,9 @@ export default function Footer({ data, config }: FooterProps) {
         aria-hidden="true"
         style={{
           position: 'absolute',
-          bottom: '-20%', 
-          right: '-25%',  // Verder naar rechts uitgelijnd (was -5%)
-          height: '200%', 
+          bottom: '-10%', 
+          right: '-15%',
+          height: '150%', 
           width: '100%',
           opacity: 1,
           pointerEvents: 'none',
@@ -37,6 +37,7 @@ export default function Footer({ data, config }: FooterProps) {
           alignItems: 'flex-end',
           justifyContent: 'flex-end',
         }}
+        className="md:bottom-[-20%] md:right-[-25%] md:h-[200%]"
       >
         <Image
           src="/images/footer-watermark.svg"
