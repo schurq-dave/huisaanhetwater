@@ -1,0 +1,270 @@
+@import 'tailwindcss';
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN SYSTEM — Huis aan het Water
+   Inspired by: Budd Pools (atmospheric photography, luxury spacing),
+                WWF Blue Carbon (bold editorial type, full-bleed sections),
+                OKRE (generous whitespace, text-first, single accent colour)
+───────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+
+  /* ── Brand colours ───────────────────────────────────────────────────────── */
+
+  --color-willow-50:  #f5f8e8;
+  --color-willow-100: #e8f0c7;
+  --color-willow-200: #d4e49f;
+  --color-willow-300: #c4d980;
+  --color-willow-400: #B8CF77;
+  --color-willow-500: #a3bc5e;
+  --color-willow-600: #8aa348;
+  --color-willow-700: #6e8539;
+  --color-willow-800: #54672b;
+  --color-willow-900: #2d3d18;
+
+  --color-sky-300:      #8CD1EA;
+  --color-sky-50:       #eef8fc;
+
+  --color-lightblue-200: #AAD9E1;
+  --color-lightblue-50:  #f0f8fa;
+
+  --color-camel-400:  #B4935E;
+  --color-camel-500:  #9d7c48;
+
+  --color-oak-50:   #f8f5f1;
+  --color-oak-200:  #CDBCA2;
+
+  --color-alabaster-200: #E5E5E5;
+
+  /* ── Semantic tokens ─────────────────────────────────────────────────────── */
+
+  --color-accent:         var(--color-willow-400);
+  --color-accent-dark:    var(--color-willow-700);
+  --color-surface:        #FFFFFF;
+  --color-surface-off:    #F7F7F5;
+  --color-surface-warm:   var(--color-oak-50);
+  --color-surface-green:  var(--color-willow-50);
+  --color-border:         var(--color-alabaster-200);
+  --color-text-base:      #1a1a18;
+  --color-text-muted:     #5a5a54;
+  --color-text-subtle:    #8a8a82;
+
+  /* ── Typography ─────────────────────────────────────────────────────────── */
+
+  --font-sans: var(--font-lato), 'Lato', ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-raleway), 'Raleway', ui-sans-serif, system-ui, sans-serif;
+
+  /* ── Spacing ─────────────────────────────────────────────────────────────── */
+
+  /* Editorial sections — generous like OKRE / Budd Pools */
+  --section-y:    9rem;    /* 144px */
+  --section-y-lg: 13rem;  /* 208px */
+
+  /* ── Radius ──────────────────────────────────────────────────────────────── */
+
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+
+  /* ── Shadows ─────────────────────────────────────────────────────────────── */
+
+  --shadow-soft: 0 2px 16px 0 rgba(0,0,0,0.06);
+  --shadow-card: 0 4px 32px 0 rgba(0,0,0,0.09);
+  --shadow-lift: 0 12px 48px 0 rgba(0,0,0,0.14);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BASE
+───────────────────────────────────────────────────────────────────────────── */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--color-text-base);
+    background-color: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Editorial heading scale — inspired by OKRE's bold, large headings */
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--color-text-base);
+  }
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--color-text-base);
+  }
+
+  h3 {
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--color-text-base);
+  }
+
+  p {
+    line-height: 1.7;
+    color: var(--color-text-muted);
+  }
+
+  a {
+    color: var(--color-willow-700);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  a:hover { color: var(--color-willow-900); }
+
+  :focus-visible {
+    outline: 2px solid var(--color-willow-400);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   UTILITIES
+───────────────────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+
+  .section-padding   { padding-block: var(--section-y); }
+  .section-padding-lg { padding-block: var(--section-y-lg); }
+
+  .container-default {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 0px;
+  }
+
+  /* Label above heading — uppercase overline */
+  .overline {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-camel-400);
+    margin-bottom: 1rem;
+  }
+
+  /* Accent underline bar — like OKRE's pink dividers */
+  .heading-bar {
+    display: block;
+    width: 3rem;
+    height: 4px;
+    border-radius: 99px;
+    background: var(--color-willow-400);
+    margin-block: 1.25rem;
+  }
+
+  /* Primary CTA button */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 1.25rem;
+    background: var(--color-willow-400);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    border-radius: 6px;
+    box-sizing: content-box;
+    transition: background 200ms ease, transform 200ms ease;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+  }
+  .btn-primary:hover {
+    background: var(--color-willow-600);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  /* Ghost / outline button */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 8px 1.25rem;
+    background: transparent;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    border-radius: var(--radius-md);
+    border: 2px solid rgba(255,255,255,0.5);
+    transition: border-color 200ms ease, background 200ms ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .btn-ghost:hover {
+    border-color: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+  }
+
+  /* Text link arrow */
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    color: var(--color-willow-700);
+    text-decoration: none;
+    transition: gap 200ms ease, color 200ms ease;
+  }
+  .link-arrow:hover {
+    gap: 0.65rem;
+    color: var(--color-willow-900);
+  }
+
+  /* Card base */
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .card-lift {
+    transition: box-shadow 250ms ease, transform 250ms ease;
+  }
+  .card-lift:hover {
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-4px);
+  }
+
+  /* Surface variants */
+  .surface-off   { background: var(--color-surface-off); }
+  .surface-warm  { background: var(--color-surface-warm); }
+  .surface-green { background: var(--color-surface-green); }
+
+  /* Footer links */
+  .footer-link { color: var(--color-text-base); }
+  .footer-link:hover { color: var(--color-willow-700); }
+
+  /* Newsletter button */
+  .newsletter-button {
+    background-color: var(--color-willow-600);
+  }
+  .newsletter-button:hover {
+    background-color: var(--color-willow-700) !important;
+  }
+}
