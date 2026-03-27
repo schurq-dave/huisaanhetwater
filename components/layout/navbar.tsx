@@ -11,27 +11,32 @@ interface NavbarProps {
   siteName: string
 }
 
-/* Left nav: Home, Over ons, Ons aanbod, Voor zorgverleners */
-const DESKTOP_LEFT = ['/', '/over-ons', '/aanbod', '/voor-zorgverleners']
-/* Right nav: Agenda, Help ons, Nieuws, Contact */
-const DESKTOP_RIGHT = ['/agenda', '/help-ons', '/nieuws', '/contact']
+/* Left nav: Home, Over ons, Ons aanbod, Agenda */
+const DESKTOP_LEFT = ['/', '/over-ons', '/aanbod', '/agenda']
+/* Right nav: Voor zorgverleners, Help ons, Nieuws, Contact */
+const DESKTOP_RIGHT = ['/voor-zorgverleners', '/help-ons', '/nieuws', '/contact']
+
+const LANGUAGES = [
+  { code: 'nl', label: 'NL', flag: '🇳🇱', name: 'Nederlands' },
+  { code: 'en', label: 'EN', flag: '🇬🇧', name: 'English' },
+  { code: 'ar', label: 'AR', flag: '🇸🇦', name: 'العربية' },
+]
 
 export default function Navbar({ data, siteName }: NavbarProps) {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [langOpen, setLangOpen] = useState(false)
+  const [activeLang, setActiveLang] = useState(LANGUAGES[0])
 
-  /* Add backdrop/shadow once user scrolls */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  /* Close menu on route change */
   useEffect(() => { setMenuOpen(false) }, [pathname])
 
-  /* Prevent body scroll when menu is open */
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -45,6 +50,92 @@ export default function Navbar({ data, siteName }: NavbarProps) {
 
   return (
     <>
+      {/* Language switcher tab — top left */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          zIndex: 200,
+        }}
+      >
+        <button
+          onClick={() => setLangOpen(v => !v)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.35rem',
+            padding: '0.3rem 0.75rem',
+            background: 'rgba(255,255,255,0.92)',
+            border: 'none',
+            borderRadius: '0 0 8px 0',
+            fontSize: '0.75rem',
+            fontWeight: 700,
+            color: 'var(--color-text-base)',
+            cursor: 'pointer',
+            boxShadow: '0 1px 6px rgba(0,0,0,0.08)',
+            backdropFilter: 'blur(8px)',
+            letterSpacing: '0.05em',
+          }}
+          aria-label="Taal kiezen"
+          aria-expanded={langOpen}
+        >
+          <span style={{ fontSize: '0.9rem' }}>{activeLang.flag}</span>
+          <span>{activeLang.label}</span>
+          <svg
+            width="10" height="10" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
+            style={{ transition: 'transform 200ms ease', transform: langOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          >
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+
+        {/* Dropdown */}
+        {langOpen && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '100%',
+              left: 0,
+              background: 'rgba(255,255,255,0.97)',
+              backdropFilter: 'blur(12px)',
+              borderRadius: '0 0 8px 8px',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+              overflow: 'hidden',
+              minWidth: '130px',
+            }}
+          >
+            {LANGUAGES.filter(l => l.code !== activeLang.code).map(lang => (
+              <button
+                key={lang.code}
+                onClick={() => { setActiveLang(lang); setLangOpen(false) }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  width: '100%',
+                  padding: '0.5rem 0.75rem',
+                  background: 'transparent',
+                  border: 'none',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  color: 'var(--color-text-base)',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'background 150ms ease',
+                }}
+                onMouseOver={(e) => e.currentTarget.style.background = 'var(--color-willow-50)'}
+                onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+              >
+                <span style={{ fontSize: '0.9rem' }}>{lang.flag}</span>
+                <span>{lang.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
       <header
         role="banner"
         style={{
@@ -53,29 +144,33 @@ export default function Navbar({ data, siteName }: NavbarProps) {
           left: 0,
           right: 0,
           zIndex: 100,
-          transition: 'background 300ms ease, box-shadow 300ms ease',
-          background: scrolled
-            ? 'rgba(255,255,255,0.96)'
-            : 'transparent',
-          backdropFilter: scrolled ? 'blur(12px)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
-          boxShadow: scrolled ? '0 1px 0 rgba(0,0,0,0.08)' : 'none',
+          padding: scrolled ? '0.5rem 1rem' : '0',
+          transition: 'padding 300ms ease',
         }}
       >
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '1rem clamp(1rem, 4vw, 2.5rem) 0' }}>
-          {/* ── Main row: left nav | logo | right nav ── */}
+        <div style={{
+          maxWidth: '1400px',
+          margin: '0 auto',
+          padding: scrolled ? '0 clamp(1rem, 4vw, 2.5rem)' : '1rem clamp(1rem, 4vw, 2.5rem) 0',
+          background: scrolled ? 'rgba(255,255,255,0.96)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(12px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(12px)' : 'none',
+          boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.08)' : 'none',
+          borderRadius: scrolled ? '16px' : '0',
+          transition: 'background 300ms ease, box-shadow 300ms ease, border-radius 300ms ease, padding 300ms ease',
+        }}>
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr auto 1fr',
+              display: 'flex',
               alignItems: 'center',
               height: '72px',
+              position: 'relative',
             }}
           >
-            {/* Left nav: Home, Over ons, Ons aanbod */}
+            {/* Left nav */}
             <nav
               aria-label="Hoofdnavigatie links"
-              style={{ display: 'none', alignItems: 'center', justifyContent: 'flex-end', gap: '0.5rem' }}
+              style={{ display: 'none', alignItems: 'center', gap: '0.25rem', flex: 1, justifyContent: 'flex-end', paddingRight: '5rem' }}
               className="desktop-nav"
             >
               {leftItems.map((item) => {
@@ -85,21 +180,18 @@ export default function Navbar({ data, siteName }: NavbarProps) {
                     key={item.href}
                     href={item.href}
                     aria-current={active ? 'page' : undefined}
+                    className={`nav-link${active ? ' nav-link--active' : ''}`}
                     style={{
-                      padding: '0.5rem 0.875rem',
-                      borderRadius: '8px',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '0',
                       fontSize: '0.9375rem',
                       fontWeight: active ? 700 : 500,
                       textDecoration: 'none',
-                      transition: 'background 180ms ease, color 180ms ease',
+                      whiteSpace: 'nowrap',
                       color: scrolled
-                        ? active ? 'var(--color-willow-700)' : 'var(--color-text-base)'
-                        : active ? '#ffffff' : 'rgba(255,255,255,0.85)',
-                      background: active && scrolled
-                        ? 'var(--color-willow-50)'
-                        : active && !scrolled
-                        ? 'rgba(255,255,255,0.15)'
-                        : 'transparent',
+                        ? active ? 'var(--color-text-base)' : 'var(--color-text-base)'
+                        : '#ffffff',
+                      background: 'transparent',
                     }}
                   >
                     {item.label}
@@ -108,11 +200,17 @@ export default function Navbar({ data, siteName }: NavbarProps) {
               })}
             </nav>
 
-            {/* Logo — center, symmetric gap on both sides */}
+            {/* Logo — absolutely centered */}
             <Link
               href="/"
               aria-label="Huis aan het Water — naar de homepage"
-              style={{ display: 'flex', alignItems: 'center', padding: '0 2rem' }}
+              style={{
+                position: 'absolute',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                display: 'flex',
+                alignItems: 'center',
+              }}
             >
               <Image
                 src="/images/logo.png"
@@ -124,11 +222,11 @@ export default function Navbar({ data, siteName }: NavbarProps) {
               />
             </Link>
 
-            {/* Right nav + mobile hamburger */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '0.5rem' }}>
+            {/* Right nav + Search + Mobile */}
+            <div style={{ display: 'flex', alignItems: 'center', flex: 1, justifyContent: 'flex-start', paddingLeft: '5rem' }}>
               <nav
                 aria-label="Hoofdnavigatie rechts"
-                style={{ display: 'none', alignItems: 'center', gap: '0.5rem' }}
+                style={{ display: 'none', alignItems: 'center', gap: '0.25rem' }}
                 className="desktop-nav"
               >
                 {rightItems.map((item) => {
@@ -138,21 +236,18 @@ export default function Navbar({ data, siteName }: NavbarProps) {
                       key={item.href}
                       href={item.href}
                       aria-current={active ? 'page' : undefined}
+                      className={`nav-link${active ? ' nav-link--active' : ''}`}
                       style={{
-                        padding: '0.5rem 0.875rem',
-                        borderRadius: '8px',
+                        padding: '0.5rem 1rem',
+                        borderRadius: '0',
                         fontSize: '0.9375rem',
                         fontWeight: active ? 700 : 500,
                         textDecoration: 'none',
-                        transition: 'background 180ms ease, color 180ms ease',
+                        whiteSpace: 'nowrap',
                         color: scrolled
-                          ? active ? 'var(--color-willow-700)' : 'var(--color-text-base)'
-                          : active ? '#ffffff' : 'rgba(255,255,255,0.85)',
-                        background: active && scrolled
-                          ? 'var(--color-willow-50)'
-                          : active && !scrolled
-                          ? 'rgba(255,255,255,0.15)'
-                          : 'transparent',
+                          ? active ? 'var(--color-text-base)' : 'var(--color-text-base)'
+                          : '#ffffff',
+                        background: 'transparent',
                       }}
                     >
                       {item.label}
@@ -282,7 +377,6 @@ export default function Navbar({ data, siteName }: NavbarProps) {
           </ul>
         </nav>
 
-        {/* CTA at bottom of mobile menu */}
         <div style={{ marginTop: '2.5rem' }}>
           <Link href={data.cta.href} className="btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
             {data.cta.label}
@@ -290,11 +384,30 @@ export default function Navbar({ data, siteName }: NavbarProps) {
         </div>
       </div>
 
-      {/* Responsive styles via style tag — avoids Tailwind purge issues */}
       <style>{`
         @media (min-width: 1024px) {
           .desktop-nav { display: flex !important; }
           .mobile-nav  { display: none !important; }
+        }
+        .nav-link {
+          position: relative;
+          transition: color 180ms ease;
+        }
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: 2px;
+          left: 0.75rem;
+          right: 0.75rem;
+          height: 2px;
+          border-radius: 2px;
+          background: var(--color-willow-500);
+          transform: scaleX(0);
+          transition: transform 200ms ease;
+        }
+        .nav-link:hover::after,
+        .nav-link--active::after {
+          transform: scaleX(1);
         }
       `}</style>
     </>
